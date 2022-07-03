@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mabo.dao.UserbaseDao">
+
+    <resultMap type="com.mabo.entity.Userbase" id="UserbaseMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="idcardnumber" column="idCardNumber" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="classId" column="classId" jdbcType="VARCHAR"/>
+        <result property="userId" column="userId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserbaseMap">
+        SELECT * FROM userbase LEFT JOIN class_user ON userbase.id=class_user.userId WHERE id=#{id}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into userbase(name, birthday, email, phone, sex, idCardNumber, type)
+        values (#{name}, #{birthday}, #{email}, #{phone}, #{sex}, #{idcardnumber}, #{type})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update userbase
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday = #{birthday},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="idcardnumber != null and idcardnumber != ''">
+                idCardNumber = #{idcardnumber},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+</mapper>
+

@@ -1,0 +1,25 @@
+spring:
+  main:
+    #允许存在多个Feign调用相同Service的接口
+    allow-bean-definition-overriding: true
+  application:
+    name: email-service
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+        namespace: public
+        extension-configs:
+          - data-id: email-service8010.yml
+            #            refresh: false
+            group: DEFAULT_GROUP
+      discovery:
+        username: nacos
+        password: nacos
+        namespace: public
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    username: guest
+    password: guest
+    virtual-host: /

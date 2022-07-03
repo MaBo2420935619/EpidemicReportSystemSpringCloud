@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mabo.dao.ReportinfoDao">
+
+    <resultMap type="com.mabo.entity.Reportinfo" id="ReportinfoMap">
+        <result property="reportdate" column="reportDate" jdbcType="VARCHAR"/>
+        <result property="realreportdate" column="realReportDate" jdbcType="VARCHAR"/>
+        <result property="bodytemperature" column="bodyTemperature" jdbcType="VARCHAR"/>
+        <result property="isconfirm" column="isConfirm" jdbcType="VARCHAR"/>
+        <result property="isarea" column="isArea" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="uameid" column="uameId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="isReportToday" resultMap="ReportinfoMap">
+        SELECT  *
+        FROM reportinfo WHERE reportDate=#{reportDate} AND uameId=#{uname}
+    </select>
+    <select id="getStudentReportHistory" resultMap="ReportinfoMap">
+        SELECT  *
+        FROM reportinfo WHERE uameId=#{id} ORDER BY realReportDate DESC
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into reportinfo(reportDate, realReportDate, bodyTemperature, isConfirm, isArea, address, uameId)
+        values (#{reportdate}, #{realreportdate}, #{bodytemperature}, #{isconfirm}, #{isarea}, #{address}, #{uameid})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update reportinfo
+        <set>
+
+            <if test="realreportdate != null and realreportdate != ''">
+                realReportDate = #{realreportdate},
+            </if>
+            <if test="bodytemperature != null and bodytemperature != ''">
+                bodyTemperature = #{bodytemperature},
+            </if>
+            <if test="isconfirm != null and isconfirm != ''">
+                isConfirm = #{isconfirm},
+            </if>
+            <if test="isarea != null and isarea != ''">
+                isArea = #{isarea},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+
+        </set>
+        where  uameId= #{uameid} and reportDate = #{reportdate}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from reportinfo where  uameId= #{uameId} and reportDate = #{reportDate}
+    </delete>
+
+</mapper>
+
